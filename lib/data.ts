@@ -8,7 +8,7 @@ export const profile = {
     github: "https://github.com/KritinRane",
   },
   about:
-    "Computer Science student (AI & ML concentration) with minors in Quantitative Finance and Cybersecurity. I build clean, useful products — backend infra, data pipelines, and AI tooling. Joining Capital One's AI team as a Software Engineering Intern in summer 2026.",
+    "Computer Science student (AI & ML concentration). I build clean, useful products — backend infra, data pipelines, and AI tooling. I joined NerdsToGo, a tech consultancy, in summer 2026, and I'm actively looking for AI/ML, software engineering, and technical PM roles.",
 };
 
 export type Experience = {
