@@ -169,13 +169,16 @@ export default function IDCard() {
 
               <div className="flex h-full w-full flex-col justify-between px-10 pb-9 pt-16">
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-[0.3em] text-neutral-400">
-                    ID
-                  </p>
-                  <h3 className="mt-3 text-3xl font-semibold tracking-tight text-neutral-900 sm:text-4xl">
+                  <div className="flex items-center gap-2">
+                    <span className="h-3 w-1 rounded-full bg-amber-600" />
+                    <p className="text-xs font-medium uppercase tracking-[0.3em] text-neutral-400">
+                      ID
+                    </p>
+                  </div>
+                  <h3 className="mt-3 text-3xl font-bold tracking-tight text-neutral-950 sm:text-4xl">
                     {profile.name}
                   </h3>
-                  <p className="mt-1 text-lg text-neutral-500">
+                  <p className="mt-2 text-sm font-semibold uppercase tracking-[0.15em] text-amber-800">
                     {profile.title}
                   </p>
                 </div>
