@@ -1,6 +1,6 @@
 import IDCard from "@/components/IDCard";
 import Reveal from "@/components/Reveal";
-import { experiences, profile, projects, skills } from "@/lib/data";
+import { experiences, profile, projects } from "@/lib/data";
 
 export default function Home() {
   return (
@@ -140,59 +140,52 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Skills */}
-      <section id="skills" className="mx-auto max-w-2xl px-6 py-28 sm:px-8">
-        <Reveal>
-          <p className="text-xs font-medium uppercase tracking-[0.25em] text-neutral-400">
-            Skills
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            {skills.map((skill) => (
-              <span
-                key={skill}
-                className="rounded-full border border-line px-4 py-1.5 text-sm text-neutral-600"
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
-        </Reveal>
-      </section>
-
       {/* Contact */}
       <section
         id="contact"
         className="mx-auto flex max-w-2xl flex-col items-start gap-6 px-6 py-32 sm:px-8"
       >
-        <Reveal>
+        <Reveal className="w-full">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-neutral-400">
             Contact
           </p>
           <h2 className="mt-6 text-3xl font-semibold tracking-tight sm:text-4xl">
             Let&apos;s work together.
           </h2>
-          <div className="mt-8 flex flex-col gap-3 text-sm">
+          <p className="mt-5 max-w-md text-base leading-relaxed text-neutral-600">
+            Have a role, a project, or just want to talk shop? Reach me
+            directly at{" "}
             <a
               href={`mailto:${profile.email}`}
-              className="text-neutral-600 underline decoration-neutral-300 underline-offset-4 transition-colors hover:text-neutral-900"
+              className="text-neutral-900 underline decoration-neutral-300 underline-offset-4 transition-colors hover:text-neutral-600"
             >
               {profile.email}
+            </a>{" "}
+            — I read every message and try to reply quickly.
+          </p>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a
+              href={`mailto:${profile.email}`}
+              className="rounded-full border border-amber-700 px-5 py-2.5 text-sm font-medium text-amber-800 transition-colors hover:bg-amber-50"
+            >
+              Email me
             </a>
             <a
               href={profile.links.github}
               target="_blank"
               rel="noreferrer"
-              className="text-neutral-600 underline decoration-neutral-300 underline-offset-4 transition-colors hover:text-neutral-900"
+              className="rounded-full border border-line px-5 py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:border-neutral-400 hover:text-neutral-900"
             >
-              GitHub
+              GitHub ↗
             </a>
             <a
               href={profile.links.linkedin}
               target="_blank"
               rel="noreferrer"
-              className="text-neutral-600 underline decoration-neutral-300 underline-offset-4 transition-colors hover:text-neutral-900"
+              className="rounded-full border border-line px-5 py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:border-neutral-400 hover:text-neutral-900"
             >
-              LinkedIn
+              LinkedIn ↗
             </a>
           </div>
         </Reveal>

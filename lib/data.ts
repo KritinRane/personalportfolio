@@ -135,19 +135,3 @@ export const projects: Project[] = [
     url: "https://github.com/KritinRane/Fullstack-Backtester",
   },
 ];
-
-export const skills: string[] = [
-  "Python",
-  "Java",
-  "React.js",
-  "HTML/CSS",
-  "Postgres",
-  "Prisma",
-  "Bash",
-  "Data Analysis",
-  "UI/UX Design",
-  "Product Management",
-  "Communications",
-  "Excel/Numbers/Sheets",
-  "Adobe Photoshop",
-];
