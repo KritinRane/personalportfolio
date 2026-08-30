@@ -6,16 +6,19 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
+  type PanInfo,
 } from "framer-motion";
 import { profile } from "@/lib/data";
 
 const REPEL_RADIUS = 280;
 const MAX_PUSH = 90;
 const MAX_TILT = 16;
-const STRAP_LENGTH = 34;
+const STRAP_LENGTH = 64;
+const DRAG_TILT_RANGE = 260;
 
 export default function IDCard() {
   const cardRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
 
   const pushX = useMotionValue(0);
   const pushY = useMotionValue(0);
@@ -28,7 +31,7 @@ export default function IDCard() {
   const springTiltX = useSpring(tiltX, { ...springConfig, stiffness: 90 });
   const springTiltY = useSpring(tiltY, { ...springConfig, stiffness: 90 });
 
-  const rotateZ = useTransform(springX, [-MAX_PUSH, MAX_PUSH], [-9, 9]);
+  const rotateZ = useTransform(springX, [-MAX_PUSH * 3, MAX_PUSH * 3], [-24, 24]);
   const scale = useTransform([springX, springY], (latest) => {
     const [x, y] = latest as number[];
     const displacement = Math.sqrt(x * x + y * y);
@@ -37,56 +40,26 @@ export default function IDCard() {
 
   const sheenX = useTransform(springTiltY, [-MAX_TILT, MAX_TILT], [0, 100]);
   const sheenY = useTransform(springTiltX, [-MAX_TILT, MAX_TILT], [100, 0]);
-  const sheenBackground = useTransform(
-    [sheenX, sheenY],
-    (latest) => {
-      const [sx, sy] = latest as number[];
-      return `radial-gradient(circle at ${sx}% ${sy}%, rgba(255,255,255,0.6), rgba(255,255,255,0) 55%)`;
-    }
-  );
+  const sheenBackground = useTransform([sheenX, sheenY], (latest) => {
+    const [sx, sy] = latest as number[];
+    return `radial-gradient(circle at ${sx}% ${sy}%, rgba(255,255,255,0.6), rgba(255,255,255,0) 55%)`;
+  });
 
-  const HALF_WIDTH = 3.5;
-  const STITCH_INSET = 1.4;
-
-  function strapGeometry(x: number, y: number) {
+  const strapPath = useTransform([springX, springY], (latest) => {
+    const [x, y] = latest as number[];
     const endX = 18 + x;
     const endY = STRAP_LENGTH + y;
     const ctrlX = 18 + x * 0.55;
     const ctrlY = STRAP_LENGTH * 0.5 + y * 0.4;
-    return { endX, endY, ctrlX, ctrlY };
-  }
-
-  const ribbonPath = useTransform([springX, springY], (latest) => {
-    const [x, y] = latest as number[];
-    const { endX, endY, ctrlX, ctrlY } = strapGeometry(x, y);
-    const hw = HALF_WIDTH;
-    return `M ${18 - hw} 0 Q ${ctrlX - hw} ${ctrlY} ${endX - hw} ${endY} L ${
-      endX + hw
-    } ${endY} Q ${ctrlX + hw} ${ctrlY} ${18 + hw} 0 Z`;
+    return `M18 0 Q ${ctrlX} ${ctrlY} ${endX} ${endY}`;
   });
-  const stitchLeftPath = useTransform([springX, springY], (latest) => {
-    const [x, y] = latest as number[];
-    const { endX, endY, ctrlX, ctrlY } = strapGeometry(x, y);
-    const inset = HALF_WIDTH - STITCH_INSET;
-    return `M ${18 - inset} 1 Q ${ctrlX - inset} ${ctrlY} ${
-      endX - inset
-    } ${endY - 1}`;
-  });
-  const stitchRightPath = useTransform([springX, springY], (latest) => {
-    const [x, y] = latest as number[];
-    const { endX, endY, ctrlX, ctrlY } = strapGeometry(x, y);
-    const inset = HALF_WIDTH - STITCH_INSET;
-    return `M ${18 + inset} 1 Q ${ctrlX + inset} ${ctrlY} ${
-      endX + inset
-    } ${endY - 1}`;
-  });
-  const crimpX = useTransform(springX, (x) => 18 + x - 3.5);
-  const crimpY = useTransform(springY, (y) => STRAP_LENGTH + y - 4.5);
   const clipCx = useTransform(springX, (x) => 18 + x);
-  const clipCy = useTransform(springY, (y) => STRAP_LENGTH + y + 2.5);
+  const clipCy = useTransform(springY, (y) => STRAP_LENGTH + y);
 
   useEffect(() => {
     function handlePointerMove(e: PointerEvent) {
+      if (isDragging.current) return;
+
       const el = cardRef.current;
       if (!el) return;
 
@@ -116,6 +89,7 @@ export default function IDCard() {
     }
 
     function handlePointerLeave() {
+      if (isDragging.current) return;
       pushX.set(0);
       pushY.set(0);
       tiltX.set(0);
@@ -130,6 +104,28 @@ export default function IDCard() {
     };
   }, [pushX, pushY, tiltX, tiltY]);
 
+  function handlePanStart() {
+    isDragging.current = true;
+  }
+
+  function handlePan(_e: PointerEvent | MouseEvent | TouchEvent, info: PanInfo) {
+    pushX.set(pushX.get() + info.delta.x);
+    pushY.set(pushY.get() + info.delta.y);
+
+    const clampedX = Math.max(-1, Math.min(1, info.offset.x / DRAG_TILT_RANGE));
+    const clampedY = Math.max(-1, Math.min(1, info.offset.y / DRAG_TILT_RANGE));
+    tiltY.set(clampedX * MAX_TILT);
+    tiltX.set(-clampedY * MAX_TILT);
+  }
+
+  function handlePanEnd() {
+    isDragging.current = false;
+    pushX.set(0);
+    pushY.set(0);
+    tiltX.set(0);
+    tiltY.set(0);
+  }
+
   return (
     <div className="flex items-center justify-center">
       <motion.div
@@ -139,70 +135,43 @@ export default function IDCard() {
       >
         {/* lanyard strap */}
         <svg
-          width={40}
-          height={STRAP_LENGTH + 6}
+          width={36}
+          height={STRAP_LENGTH}
           className="pointer-events-none"
           style={{ overflow: "visible" }}
         >
-          <defs>
-            <linearGradient id="strapGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#f0f0f0" />
-              <stop offset="45%" stopColor="#d6d6d6" />
-              <stop offset="100%" stopColor="#adadad" />
-            </linearGradient>
-            <linearGradient id="metalGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#f5f5f5" />
-              <stop offset="50%" stopColor="#b8b8b8" />
-              <stop offset="100%" stopColor="#8a8a8a" />
-            </linearGradient>
-          </defs>
-
-          {/* fabric ribbon */}
-          <motion.path d={ribbonPath} fill="url(#strapGrad)" />
-
-          {/* edge stitching */}
           <motion.path
-            d={stitchLeftPath}
-            stroke="#8a8a8a"
-            strokeWidth={0.5}
-            strokeDasharray="1 1.4"
+            d={strapPath}
+            stroke="#d4d4d4"
+            strokeWidth={6}
+            strokeLinecap="round"
             fill="none"
-            opacity={0.8}
           />
           <motion.path
-            d={stitchRightPath}
-            stroke="#8a8a8a"
-            strokeWidth={0.5}
-            strokeDasharray="1 1.4"
+            d={strapPath}
+            stroke="#a3a3a3"
+            strokeWidth={1}
+            strokeDasharray="1.5 3"
             fill="none"
-            opacity={0.8}
-          />
-
-          {/* metal crimp + swivel ring */}
-          <motion.rect
-            x={crimpX}
-            y={crimpY}
-            width={7}
-            height={4.5}
-            rx={1}
-            fill="url(#metalGrad)"
-            stroke="#7a7a7a"
-            strokeWidth={0.4}
+            opacity={0.7}
           />
           <motion.circle
             cx={clipCx}
             cy={clipCy}
-            r={4}
-            fill="none"
-            stroke="url(#metalGrad)"
-            strokeWidth={1.6}
+            r={5}
+            fill="#eaeaea"
+            stroke="#a3a3a3"
+            strokeWidth={1}
           />
         </svg>
 
         <div style={{ perspective: 1200 }}>
           <motion.div
             ref={cardRef}
-            className="relative w-[270px] sm:w-[430px] aspect-[1.586/1] select-none"
+            onPanStart={handlePanStart}
+            onPan={handlePan}
+            onPanEnd={handlePanEnd}
+            className="relative w-[270px] sm:w-[430px] aspect-[1.586/1] cursor-grab select-none active:cursor-grabbing"
             style={{
               x: springX,
               y: springY,
@@ -211,6 +180,7 @@ export default function IDCard() {
               rotateZ,
               scale,
               transformStyle: "preserve-3d",
+              touchAction: "none",
             }}
           >
             <div
