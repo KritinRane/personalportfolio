@@ -227,7 +227,7 @@ export default function IDCard() {
               <div className="absolute left-1/2 top-5 h-3 w-12 -translate-x-1/2 rounded-full bg-neutral-100 ring-1 ring-inset ring-neutral-200" />
 
               <div className="flex h-full w-full flex-col justify-between px-8 pb-7 pt-14">
-                <div style={{ fontFamily: '"Times New Roman", Times, serif' }}>
+                <div>
                   <div className="flex items-center gap-2">
                     <span className="h-2.5 w-1 rounded-full bg-amber-600" />
                     <p className="text-xs font-medium uppercase tracking-[0.3em] text-neutral-400">
