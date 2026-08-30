@@ -1,3 +1,4 @@
+import ContactForm from "@/components/ContactForm";
 import IDCard from "@/components/IDCard";
 import Reveal from "@/components/Reveal";
 import { experiences, profile, projects } from "@/lib/data";
@@ -143,56 +144,53 @@ export default function Home() {
       {/* Contact */}
       <section
         id="contact"
-        className="mx-auto flex max-w-2xl flex-col items-start gap-6 px-6 py-32 sm:px-8"
+        className="bg-neutral-950 px-6 py-28 text-neutral-100 sm:px-8"
       >
-        <Reveal className="w-full">
-          <p className="text-xs font-medium uppercase tracking-[0.25em] text-neutral-400">
-            Contact
-          </p>
-          <h2 className="mt-6 text-3xl font-semibold tracking-tight sm:text-4xl">
-            Let&apos;s work together.
-          </h2>
-          <p className="mt-5 max-w-md text-base leading-relaxed text-neutral-600">
-            Have a role, a project, or just want to talk shop? Reach me
-            directly at{" "}
-            <a
-              href={`mailto:${profile.email}`}
-              className="text-neutral-900 underline decoration-neutral-300 underline-offset-4 transition-colors hover:text-neutral-600"
-            >
-              {profile.email}
-            </a>{" "}
-            — I read every message and try to reply quickly.
-          </p>
+        <div className="mx-auto max-w-2xl">
+          <Reveal>
+            <div className="flex items-center gap-4">
+              <p className="whitespace-nowrap text-xs font-medium uppercase tracking-[0.25em] text-neutral-500">
+                Contact
+              </p>
+              <span className="h-px w-full bg-neutral-800" />
+            </div>
+            <p className="mt-6 max-w-md text-base leading-relaxed text-neutral-400">
+              Open to AI/ML, software engineering, and technical PM
+              opportunities. Fill out the form below or reach out directly.
+            </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href={`mailto:${profile.email}`}
-              className="rounded-full border border-amber-700 px-5 py-2.5 text-sm font-medium text-amber-800 transition-colors hover:bg-amber-50"
-            >
-              Email me
-            </a>
-            <a
-              href={profile.links.github}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-full border border-line px-5 py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:border-neutral-400 hover:text-neutral-900"
-            >
-              GitHub ↗
-            </a>
-            <a
-              href={profile.links.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-full border border-line px-5 py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:border-neutral-400 hover:text-neutral-900"
-            >
-              LinkedIn ↗
-            </a>
-          </div>
-        </Reveal>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a
+                href={`mailto:${profile.email}`}
+                className="rounded-full border border-amber-600 px-5 py-2.5 text-sm font-medium text-amber-500 transition-colors hover:bg-amber-950/40"
+              >
+                {profile.email}
+              </a>
+              <a
+                href={profile.links.github}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-full border border-neutral-700 px-5 py-2.5 text-sm font-medium text-neutral-300 transition-colors hover:border-neutral-500 hover:text-white"
+              >
+                GitHub ↗
+              </a>
+              <a
+                href={profile.links.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-full border border-neutral-700 px-5 py-2.5 text-sm font-medium text-neutral-300 transition-colors hover:border-neutral-500 hover:text-white"
+              >
+                LinkedIn ↗
+              </a>
+            </div>
 
-        <p className="mt-16 text-xs text-neutral-400">
-          © {new Date().getFullYear()} {profile.name}
-        </p>
+            <ContactForm />
+          </Reveal>
+
+          <p className="mt-10 text-xs text-neutral-600">
+            © {new Date().getFullYear()} {profile.name}
+          </p>
+        </div>
       </section>
     </div>
   );
