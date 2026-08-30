@@ -1,7 +1,6 @@
 export const profile = {
   name: "Kritin Rane",
   title: "Software Engineer",
-  tagline: "AI Systems Fellow @ CodePath",
   location: "New Jersey, USA",
   email: "ranekritin@gmail.com",
   links: {
@@ -9,7 +8,7 @@ export const profile = {
     github: "https://github.com/KritinRane",
   },
   about:
-    "I build AI systems and full-stack products — from retrieval pipelines and multi-agent tooling to student-facing platforms used by thousands. Currently teaching AI agent design and safety guardrails to a 130-student cohort at CodePath.",
+    "Computer Science student (AI & ML concentration). I build clean, useful products — backend infra, data pipelines, and AI tooling. I joined NerdsToGo, a tech consultancy, in summer 2026, and I'm actively looking for AI/ML, software engineering, and technical PM roles.",
 };
 
 export type Experience = {
@@ -17,8 +16,9 @@ export type Experience = {
   org: string;
   location: string;
   period: string;
-  type: string;
-  bullets: string[];
+  current: boolean;
+  description: string;
+  tags: string[];
 };
 
 export const experiences: Experience[] = [
@@ -27,49 +27,111 @@ export const experiences: Experience[] = [
     org: "CodePath",
     location: "Remote",
     period: "Aug 2026 — Present",
-    type: "Internship",
-    bullets: [
-      "Facilitate technical instruction across AI agent design, prompt engineering, and safety guardrail concepts for a 130-student cohort.",
-      "Lead study halls supporting students through hands-on assignments, reviewing technical material ahead of each session to maintain fluency across AI system architecture and model evaluation topics.",
-      "Track student progress and technical blockers across 5 breakout groups, syncing weekly with the Instructional Program Manager to surface recurring gaps and improve session delivery.",
-    ],
+    current: true,
+    description:
+      "Facilitating technical instruction in AI agent design, prompt engineering, and safety guardrails for a 130-student cohort.",
+    tags: ["AI Agents", "Education"],
   },
   {
-    role: "AI Engineering Fellow",
-    org: "CodePath",
-    location: "Remote",
-    period: "May 2026 — Present",
-    type: "Internship",
-    bullets: [
-      "Built a production RAG pipeline using ChromaDB and all-MiniLM-L6-v2 to ingest and recursively chunk unstructured campus reviews, optimizing semantic retrieval accuracy.",
-      "Engineered multi-tool AI agents and safety layers via Groq (Llama 3.3), implementing strict system prompt guardrails to enforce zero-shot data restrictions and eliminate hallucinations.",
-      "Mastered large-scale codebase navigation and open-source workflows, tracing complex multi-service dependencies to debug systemic issues and submit formalized merge requests.",
-    ],
+    role: "Software Engineering Intern",
+    org: "NerdsToGo",
+    location: "Princeton, NJ",
+    period: "Jun 2026 — Aug 2026",
+    current: false,
+    description:
+      "Built an automated daily lead-generation pipeline in Python that scraped municipal and school district portals for IT contract opportunities and emailed new leads.",
+    tags: ["Python", "Automation"],
   },
   {
-    role: "Software Engineer",
-    org: "Stevens Student Management System",
+    role: "Quantitative Research Developer",
+    org: "Stevens Student Managed Investment Fund",
     location: "Hoboken, NJ",
-    period: "Stevens Institute of Technology",
-    type: "Project",
-    bullets: [
-      "Deployed a centralized career dashboard for 1,200+ Stevens students, consolidating live opportunity data from 10+ distinct sources into a single, low-latency interface.",
-    ],
+    period: "Mar 2026 — Present",
+    current: true,
+    description:
+      "Building an automated sector-forecasting pipeline with FastAPI and ClickHouse that supports a $1.2M equity portfolio and cut manual analysis effort by 75%.",
+    tags: ["FastAPI", "ClickHouse", "Python"],
+  },
+  {
+    role: "Head of Operations",
+    org: "Stevens Software Engineer Club",
+    location: "Hoboken, NJ",
+    period: "Mar 2026 — Present",
+    current: true,
+    description:
+      "Directing a university-wide hackathon and the SDLC across 5 concurrent club software projects, shipping 3 MVPs with 4+ partner clubs.",
+    tags: ["Leadership", "Agile"],
+  },
+  {
+    role: "Full-Stack Developer",
+    org: "Blueprint",
+    location: "Hoboken, NJ",
+    period: "Sep 2025 — Jan 2026",
+    current: false,
+    description:
+      "Built schema-mapping and file-upload workflows in React and TypeScript for an open-source tool standardizing service data for Open Referral.",
+    tags: ["React", "TypeScript", "Docker"],
+  },
+  {
+    role: "Product Management Intern",
+    org: "SharpStakes",
+    location: "Ontario, Canada",
+    period: "Nov 2024 — Mar 2025",
+    current: false,
+    description:
+      "Automated client-record processing with Python and SQL and built analytics dashboards to track user retention trends.",
+    tags: ["Python", "SQL", "Analytics"],
   },
 ];
 
-export const skills: string[] = [
-  "Python",
-  "Java",
-  "React.js",
-  "HTML/CSS",
-  "Postgres",
-  "Prisma",
-  "Bash",
-  "Data Analysis",
-  "UI/UX Design",
-  "Product Management",
-  "Communications",
-  "Excel/Numbers/Sheets",
-  "Adobe Photoshop",
+export type Project = {
+  name: string;
+  period: string;
+  description: string;
+  tags: string[];
+  badge?: string;
+  url?: string;
+};
+
+export const projects: Project[] = [
+  {
+    name: "Production RAG System",
+    period: "Jul 2026 — Present",
+    description:
+      "Production RAG pipeline over unstructured campus reviews using ChromaDB and Llama 3.3 via Groq, with grounded generation and an evaluation framework for retrieval precision.",
+    tags: ["Python", "ChromaDB", "Groq"],
+    url: "https://github.com/KritinRane/ai201-project1-unofficial-guide-starter",
+  },
+  {
+    name: "Hitch",
+    period: "Mar 2026 — Present",
+    description:
+      "Full-stack safety platform matching students with verified travel companions using geospatial (Haversine) matching and a Google Gemini AI safety companion.",
+    tags: ["Next.js", "Node.js", "Snowflake", "Gemini AI"],
+    badge: "2nd Place — University-Wide Hackathon",
+    url: "https://github.com/AaravL/QuackHacks-HomeSafely",
+  },
+  {
+    name: "Snooze",
+    period: "Dec 2025 — Present",
+    description:
+      "Sleep-optimization platform generating personalized schedules from circadian-rhythm algorithms, backed by a Flask API and Chart.js visualizations.",
+    tags: ["React", "Python", "Flask", "Chart.js"],
+  },
+  {
+    name: "DuckFitnessPal",
+    period: "Nov 2025 — Mar 2026",
+    description:
+      "Macro-tracking app ingesting 13,000+ Stevens dining items via the DineOnCampus API, with a Python sync pipeline and a real-time TDEE-based dashboard.",
+    tags: ["Next.js", "TypeScript", "Prisma", "Python"],
+    url: "https://github.com/KritinRane/DuckFitnessPal",
+  },
+  {
+    name: "Algorithmic Trading Backtester",
+    period: "Sep 2025 — Oct 2025",
+    description:
+      "Full-stack app for configuring and visualizing algorithmic trading backtests, with a FastAPI backend for trade simulation and a React frontend for real-time analytics.",
+    tags: ["Python", "FastAPI", "React", "JavaScript"],
+    url: "https://github.com/KritinRane/Fullstack-Backtester",
+  },
 ];
