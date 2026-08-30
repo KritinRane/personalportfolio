@@ -45,16 +45,45 @@ export default function IDCard() {
     }
   );
 
-  const strapPath = useTransform([springX, springY], (latest) => {
-    const [x, y] = latest as number[];
+  const HALF_WIDTH = 3.5;
+  const STITCH_INSET = 1.4;
+
+  function strapGeometry(x: number, y: number) {
     const endX = 18 + x;
     const endY = STRAP_LENGTH + y;
     const ctrlX = 18 + x * 0.55;
     const ctrlY = STRAP_LENGTH * 0.5 + y * 0.4;
-    return `M18 0 Q ${ctrlX} ${ctrlY} ${endX} ${endY}`;
+    return { endX, endY, ctrlX, ctrlY };
+  }
+
+  const ribbonPath = useTransform([springX, springY], (latest) => {
+    const [x, y] = latest as number[];
+    const { endX, endY, ctrlX, ctrlY } = strapGeometry(x, y);
+    const hw = HALF_WIDTH;
+    return `M ${18 - hw} 0 Q ${ctrlX - hw} ${ctrlY} ${endX - hw} ${endY} L ${
+      endX + hw
+    } ${endY} Q ${ctrlX + hw} ${ctrlY} ${18 + hw} 0 Z`;
   });
+  const stitchLeftPath = useTransform([springX, springY], (latest) => {
+    const [x, y] = latest as number[];
+    const { endX, endY, ctrlX, ctrlY } = strapGeometry(x, y);
+    const inset = HALF_WIDTH - STITCH_INSET;
+    return `M ${18 - inset} 1 Q ${ctrlX - inset} ${ctrlY} ${
+      endX - inset
+    } ${endY - 1}`;
+  });
+  const stitchRightPath = useTransform([springX, springY], (latest) => {
+    const [x, y] = latest as number[];
+    const { endX, endY, ctrlX, ctrlY } = strapGeometry(x, y);
+    const inset = HALF_WIDTH - STITCH_INSET;
+    return `M ${18 + inset} 1 Q ${ctrlX + inset} ${ctrlY} ${
+      endX + inset
+    } ${endY - 1}`;
+  });
+  const crimpX = useTransform(springX, (x) => 18 + x - 3.5);
+  const crimpY = useTransform(springY, (y) => STRAP_LENGTH + y - 4.5);
   const clipCx = useTransform(springX, (x) => 18 + x);
-  const clipCy = useTransform(springY, (y) => STRAP_LENGTH + y);
+  const clipCy = useTransform(springY, (y) => STRAP_LENGTH + y + 2.5);
 
   useEffect(() => {
     function handlePointerMove(e: PointerEvent) {
@@ -110,40 +139,70 @@ export default function IDCard() {
       >
         {/* lanyard strap */}
         <svg
-          width={36}
-          height={STRAP_LENGTH}
+          width={40}
+          height={STRAP_LENGTH + 6}
           className="pointer-events-none"
           style={{ overflow: "visible" }}
         >
+          <defs>
+            <linearGradient id="strapGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#f0f0f0" />
+              <stop offset="45%" stopColor="#d6d6d6" />
+              <stop offset="100%" stopColor="#adadad" />
+            </linearGradient>
+            <linearGradient id="metalGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#f5f5f5" />
+              <stop offset="50%" stopColor="#b8b8b8" />
+              <stop offset="100%" stopColor="#8a8a8a" />
+            </linearGradient>
+          </defs>
+
+          {/* fabric ribbon */}
+          <motion.path d={ribbonPath} fill="url(#strapGrad)" />
+
+          {/* edge stitching */}
           <motion.path
-            d={strapPath}
-            stroke="#d4d4d4"
-            strokeWidth={6}
-            strokeLinecap="round"
+            d={stitchLeftPath}
+            stroke="#8a8a8a"
+            strokeWidth={0.5}
+            strokeDasharray="1 1.4"
             fill="none"
+            opacity={0.8}
           />
           <motion.path
-            d={strapPath}
-            stroke="#a3a3a3"
-            strokeWidth={1}
-            strokeDasharray="1.5 3"
+            d={stitchRightPath}
+            stroke="#8a8a8a"
+            strokeWidth={0.5}
+            strokeDasharray="1 1.4"
             fill="none"
-            opacity={0.7}
+            opacity={0.8}
+          />
+
+          {/* metal crimp + swivel ring */}
+          <motion.rect
+            x={crimpX}
+            y={crimpY}
+            width={7}
+            height={4.5}
+            rx={1}
+            fill="url(#metalGrad)"
+            stroke="#7a7a7a"
+            strokeWidth={0.4}
           />
           <motion.circle
             cx={clipCx}
             cy={clipCy}
-            r={5}
-            fill="#eaeaea"
-            stroke="#a3a3a3"
-            strokeWidth={1}
+            r={4}
+            fill="none"
+            stroke="url(#metalGrad)"
+            strokeWidth={1.6}
           />
         </svg>
 
         <div style={{ perspective: 1200 }}>
           <motion.div
             ref={cardRef}
-            className="relative w-[320px] sm:w-[520px] aspect-[1.586/1] select-none"
+            className="relative w-[270px] sm:w-[430px] aspect-[1.586/1] select-none"
             style={{
               x: springX,
               y: springY,
@@ -165,26 +224,26 @@ export default function IDCard() {
               />
 
               {/* lanyard hole */}
-              <div className="absolute left-1/2 top-6 h-3.5 w-14 -translate-x-1/2 rounded-full bg-neutral-100 ring-1 ring-inset ring-neutral-200" />
+              <div className="absolute left-1/2 top-5 h-3 w-12 -translate-x-1/2 rounded-full bg-neutral-100 ring-1 ring-inset ring-neutral-200" />
 
-              <div className="flex h-full w-full flex-col justify-between px-10 pb-9 pt-16">
-                <div>
+              <div className="flex h-full w-full flex-col justify-between px-8 pb-7 pt-14">
+                <div style={{ fontFamily: '"Times New Roman", Times, serif' }}>
                   <div className="flex items-center gap-2">
-                    <span className="h-3 w-1 rounded-full bg-amber-600" />
+                    <span className="h-2.5 w-1 rounded-full bg-amber-600" />
                     <p className="text-xs font-medium uppercase tracking-[0.3em] text-neutral-400">
                       ID
                     </p>
                   </div>
-                  <h3 className="mt-3 text-3xl font-bold tracking-tight text-neutral-950 sm:text-4xl">
+                  <h3 className="mt-2.5 text-2xl font-bold tracking-tight text-neutral-950 sm:text-3xl">
                     {profile.name}
                   </h3>
-                  <p className="mt-2 text-sm font-semibold uppercase tracking-[0.15em] text-amber-800">
+                  <p className="mt-1.5 text-sm font-semibold uppercase tracking-[0.15em] text-amber-800">
                     {profile.title}
                   </p>
                 </div>
 
                 <div className="flex items-end justify-between">
-                  <div className="h-9 w-14 rounded-[4px] bg-gradient-to-br from-neutral-300 to-neutral-400" />
+                  <div className="h-8 w-12 rounded-[4px] bg-gradient-to-br from-neutral-300 to-neutral-400" />
                   <div className="flex gap-1.5">
                     <span className="h-1.5 w-1.5 rounded-full bg-neutral-300" />
                     <span className="h-1.5 w-1.5 rounded-full bg-neutral-300" />
