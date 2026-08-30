@@ -100,6 +100,7 @@ export const projects: Project[] = [
     description:
       "Production RAG pipeline over unstructured campus reviews using ChromaDB and Llama 3.3 via Groq, with grounded generation and an evaluation framework for retrieval precision.",
     tags: ["Python", "ChromaDB", "Groq"],
+    url: "https://github.com/KritinRane/ai201-project1-unofficial-guide-starter",
   },
   {
     name: "Hitch",
@@ -108,6 +109,7 @@ export const projects: Project[] = [
       "Full-stack safety platform matching students with verified travel companions using geospatial (Haversine) matching and a Google Gemini AI safety companion.",
     tags: ["Next.js", "Node.js", "Snowflake", "Gemini AI"],
     badge: "2nd Place — University-Wide Hackathon",
+    url: "https://github.com/AaravL/QuackHacks-HomeSafely",
   },
   {
     name: "Snooze",
@@ -122,6 +124,7 @@ export const projects: Project[] = [
     description:
       "Macro-tracking app ingesting 13,000+ Stevens dining items via the DineOnCampus API, with a Python sync pipeline and a real-time TDEE-based dashboard.",
     tags: ["Next.js", "TypeScript", "Prisma", "Python"],
+    url: "https://github.com/KritinRane/DuckFitnessPal",
   },
   {
     name: "Algorithmic Trading Backtester",
@@ -129,6 +132,7 @@ export const projects: Project[] = [
     description:
       "Full-stack app for configuring and visualizing algorithmic trading backtests, with a FastAPI backend for trade simulation and a React frontend for real-time analytics.",
     tags: ["Python", "FastAPI", "React", "JavaScript"],
+    url: "https://github.com/KritinRane/Fullstack-Backtester",
   },
 ];
 
