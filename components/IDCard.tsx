@@ -12,7 +12,7 @@ import { profile } from "@/lib/data";
 const REPEL_RADIUS = 280;
 const MAX_PUSH = 90;
 const MAX_TILT = 16;
-const STRAP_LENGTH = 28;
+const STRAP_LENGTH = 34;
 
 export default function IDCard() {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -143,7 +143,7 @@ export default function IDCard() {
         <div style={{ perspective: 1200 }}>
           <motion.div
             ref={cardRef}
-            className="relative w-[300px] sm:w-[340px] aspect-[1.586/1] select-none"
+            className="relative w-[320px] sm:w-[520px] aspect-[1.586/1] select-none"
             style={{
               x: springX,
               y: springY,
@@ -155,7 +155,7 @@ export default function IDCard() {
             }}
           >
             <div
-              className="relative h-full w-full rounded-2xl border border-neutral-200 bg-white shadow-[0_30px_60px_-15px_rgba(0,0,0,0.25)] overflow-hidden"
+              className="relative h-full w-full rounded-3xl border border-neutral-200 bg-white shadow-[0_30px_60px_-15px_rgba(0,0,0,0.25)] overflow-hidden"
               style={{ transformStyle: "preserve-3d" }}
             >
               {/* sheen */}
@@ -165,27 +165,27 @@ export default function IDCard() {
               />
 
               {/* lanyard hole */}
-              <div className="absolute left-1/2 top-4 h-2.5 w-10 -translate-x-1/2 rounded-full bg-neutral-100 ring-1 ring-inset ring-neutral-200" />
+              <div className="absolute left-1/2 top-6 h-3.5 w-14 -translate-x-1/2 rounded-full bg-neutral-100 ring-1 ring-inset ring-neutral-200" />
 
-              <div className="flex h-full w-full flex-col justify-between px-7 pb-6 pt-11">
+              <div className="flex h-full w-full flex-col justify-between px-10 pb-9 pt-16">
                 <div>
-                  <p className="text-[10px] font-medium uppercase tracking-[0.25em] text-neutral-400">
+                  <p className="text-xs font-medium uppercase tracking-[0.3em] text-neutral-400">
                     ID
                   </p>
-                  <h3 className="mt-2 text-xl font-semibold tracking-tight text-neutral-900">
+                  <h3 className="mt-3 text-3xl font-semibold tracking-tight text-neutral-900 sm:text-4xl">
                     {profile.name}
                   </h3>
-                  <p className="mt-0.5 text-sm text-neutral-500">
+                  <p className="mt-1 text-lg text-neutral-500">
                     {profile.title}
                   </p>
                 </div>
 
                 <div className="flex items-end justify-between">
-                  <div className="h-6 w-9 rounded-[3px] bg-gradient-to-br from-neutral-300 to-neutral-400" />
-                  <div className="flex gap-1">
-                    <span className="h-1 w-1 rounded-full bg-neutral-300" />
-                    <span className="h-1 w-1 rounded-full bg-neutral-300" />
-                    <span className="h-1 w-1 rounded-full bg-neutral-300" />
+                  <div className="h-9 w-14 rounded-[4px] bg-gradient-to-br from-neutral-300 to-neutral-400" />
+                  <div className="flex gap-1.5">
+                    <span className="h-1.5 w-1.5 rounded-full bg-neutral-300" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-neutral-300" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-neutral-300" />
                   </div>
                 </div>
               </div>

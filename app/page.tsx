@@ -1,22 +1,13 @@
 import IDCard from "@/components/IDCard";
-import Nav from "@/components/Nav";
 import Reveal from "@/components/Reveal";
 import { experiences, profile, projects, skills } from "@/lib/data";
 
 export default function Home() {
   return (
     <div id="top" className="bg-white font-sans text-neutral-900">
-      <Nav />
-
       {/* Hero */}
-      <section className="relative flex min-h-screen flex-col items-center justify-center gap-14 px-6 pt-24 sm:px-8">
+      <section className="relative flex min-h-screen flex-col items-center justify-center px-6 sm:px-8">
         <IDCard />
-        <Reveal className="text-center">
-          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-            {profile.name}
-          </h1>
-          <p className="mt-3 text-lg text-neutral-500">{profile.title}</p>
-        </Reveal>
         <a
           href="#about"
           className="absolute bottom-10 flex flex-col items-center gap-2 text-xs uppercase tracking-[0.25em] text-neutral-400"
