@@ -196,12 +196,12 @@ export default function IDCard() {
               {/* lanyard hole */}
               <div className="absolute left-1/2 top-5 h-3 w-12 -translate-x-1/2 rounded-full bg-neutral-100 ring-1 ring-inset ring-neutral-200" />
 
-              <div className="flex h-full w-full flex-col px-6 pb-7 pt-10">
-                <div className="flex flex-1 flex-col items-center justify-center text-center">
-                  <h3 className="text-3xl font-bold tracking-tight text-neutral-950 sm:text-4xl">
+              <div className="flex h-full w-full flex-col justify-between px-8 pb-7 pt-14">
+                <div className="text-center">
+                  <h3 className="text-2xl font-bold tracking-tight text-neutral-950 sm:text-3xl">
                     {profile.name}
                   </h3>
-                  <p className="mt-2 text-sm font-semibold uppercase tracking-[0.15em] text-amber-800 sm:text-base">
+                  <p className="mt-1.5 text-sm font-semibold uppercase tracking-[0.15em] text-amber-800">
                     {profile.title}
                   </p>
                 </div>
